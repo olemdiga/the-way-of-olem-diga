@@ -193,7 +193,7 @@
             <h1>Path not found</h1>
             <p>The step you are looking for does not exist. Maybe it was never laid, or the way has shifted.</p>
             <p>But you are still here. That is what matters.</p>
-            <a href="/the-way-of-olem-diga/" class="button"><i class="fas fa-arrow-left" aria-hidden="true"></i> Return to the beginning</a>
+            <a href="#" id="homeLink" class="button"><i class="fas fa-arrow-left" aria-hidden="true"></i> Return to the beginning</a>
             <div class="random-suggestion" id="randomSuggestion">
                 <!-- Will be filled by JS -->
             </div>
@@ -208,18 +208,39 @@
     <!-- Font Awesome CDN (external but lightweight) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" defer></script>
     <script>
-        // List of meaningful practice paths (relative to root)
+        // Determine base path: remove trailing filename and any extra segments
+        function getBasePath() {
+            var path = window.location.pathname;
+            // If path ends with a filename (has extension), remove it
+            if (path.match(/\.\w+$/)) {
+                path = path.substring(0, path.lastIndexOf('/'));
+            }
+            // Ensure it ends with a slash
+            if (!path.endsWith('/')) path += '/';
+            return path;
+        }
+
+        var base = getBasePath();
+
+        // List of meaningful practice paths (relative to base)
+        // These are relative to the site root, but we'll prepend base
         const practicePaths = [
-            { name: "The Inevitability of Opportunities", url: "/anchors/inevitability.html" },
-            { name: "Future Self", url: "/anchors/future-self.html" },
-            { name: "Cognitive Architecture", url: "/01-foundation/01-operating-system/cognitive-architecture.html" },
-            { name: "Light Audit", url: "/01-foundation/02-physical-environment/light-audit.html" },
-            { name: "Energy Economics", url: "/01-foundation/01-operating-system/energy-economics.html" },
-            { name: "Shadow Inventory", url: "/02-depth/01-shadow-inventory/index.html" },
-            { name: "Minimum Viable Action", url: "/03-construction/02-deep-work/01-minimum-viable-action.html" },
-            { name: "Foundation Check", url: "/threshold/foundation-check.html" },
-            { name: "Why This Exists", url: "/begin.html" }
+            { name: "The Inevitability of Opportunities", url: "anchors/inevitability.html" },
+            { name: "Future Self", url: "anchors/future-self.html" },
+            { name: "Cognitive Architecture", url: "01-foundation/01-operating-system/cognitive-architecture.html" },
+            { name: "Light Audit", url: "01-foundation/02-physical-environment/light-audit.html" },
+            { name: "Energy Economics", url: "01-foundation/01-operating-system/energy-economics.html" },
+            { name: "Shadow Inventory", url: "02-depth/01-shadow-inventory/index.html" },
+            { name: "Minimum Viable Action", url: "03-construction/02-deep-work/01-minimum-viable-action.html" },
+            { name: "Foundation Check", url: "threshold/foundation-check.html" },
+            { name: "Why This Exists", url: "begin.html" }
         ];
+
+        function resolveUrl(relativePath) {
+            // Remove leading slash if any, then join with base
+            if (relativePath.startsWith('/')) relativePath = relativePath.substring(1);
+            return base + relativePath;
+        }
 
         function getRandomPractice() {
             const randomIndex = Math.floor(Math.random() * practicePaths.length);
@@ -229,29 +250,28 @@
         function updateRandomSuggestion() {
             const practice = getRandomPractice();
             const suggestionDiv = document.getElementById('randomSuggestion');
+            const fullUrl = resolveUrl(practice.url);
             suggestionDiv.innerHTML = `
                 <p><i class="fas fa-compass" aria-hidden="true"></i> <strong>Maybe you need this instead</strong></p>
-                <p><a href="${practice.url}">${practice.name}</a> — a path that is ready for you.</p>
+                <p><a href="${fullUrl}">${practice.name}</a> — a path that is ready for you.</p>
             `;
-            // Also update the "another link" to point to a new random
+            // Update "another link" href to a new random practice (without page reload)
+            const freshPractice = getRandomPractice();
             const anotherLink = document.getElementById('anotherLink');
-            // Remove old onclick and set new one
-            const newPractice = getRandomPractice();
-            anotherLink.href = newPractice.url;
-            // But we also want to refresh the suggestion without reloading the page when clicking "another"
-            anotherLink.onclick = function(e) {
-                e.preventDefault();
-                const freshPractice = getRandomPractice();
-                suggestionDiv.innerHTML = `
-                    <p><i class="fas fa-compass" aria-hidden="true"></i> <strong>Maybe you need this instead</strong></p>
-                    <p><a href="${freshPractice.url}">${freshPractice.name}</a> — a path that is ready for you.</p>
-                `;
-                anotherLink.href = freshPractice.url;
-            };
+            anotherLink.href = resolveUrl(freshPractice.url);
+            // Also set onclick to refresh without full page reload? We'll let it navigate normally.
         }
 
+        // Handle home link: go to base path
+        document.getElementById('homeLink').href = base;
+
+        // Also attach click handler to home link to ensure it goes to base (already set)
+        // For "another link", we already set href above. But we also want to update the suggestion when clicked?
+        // The page will navigate away when clicking "another link". But we can also make it update suggestion without leaving page? 
+        // Simpler: let it navigate. The 404 might be shown again if that link also 404s, but we trust paths are correct.
+        
         // Initialize on load
         document.addEventListener('DOMContentLoaded', updateRandomSuggestion);
     </script>
 </body>
-</html>
+    </html>
