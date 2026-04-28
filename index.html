@@ -15,7 +15,7 @@
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <button class="sidenav-toggle" id="navToggle" aria-label="Open navigation">
+    <button class="sidenav-toggle" id="navToggle" aria-label="Open navigation" onclick="var s=document.getElementById('sidenav'); if(s) s.classList.toggle('open');">
         <i class="fas fa-compass"></i>
     </button>
 
@@ -31,7 +31,7 @@
 
         <main class="main">
 
-            <!-- Hero section (not inside a card) -->
+            <!-- Hero section -->
             <section class="hero">
                 <div class="hero-content">
                     <h2 class="hero-eyebrow"><i class="fas fa-person-walking-arrow-right"></i> A manual for a specific mind in a specific world</h2>
@@ -48,7 +48,7 @@
                 </div>
             </section>
 
-            <!-- Stage separator (threshold) -->
+            <!-- Stage separator -->
             <div class="threshold">
                 <div class="threshold-line"></div>
                 <div class="threshold-words">
@@ -63,12 +63,12 @@
                 <div class="threshold-line"></div>
             </div>
 
-            <!-- Ground line (can be a simple note) -->
+            <!-- Ground -->
             <div class="ground">
                 <p>I can choose my direction. I can build what matters. I can walk well and leave tracks.</p>
             </div>
 
-            <!-- Pillars (four stages) -->
+            <!-- Pillars -->
             <section class="pillars">
                 <h2 class="section-title">The four stages</h2>
 
@@ -145,11 +145,10 @@
                 </div>
             </section>
 
-            <!-- Counterfeit section -->
+            <!-- Counterfeit -->
             <section class="counterfeit">
                 <h2 class="section-title">The counterfeit paths</h2>
                 <p class="counterfeit-intro">Each stage has a counterfeit. Learning to recognise them keeps me from walking in circles.</p>
-
                 <div class="counterfeit-grid">
                     <div class="counterfeit-card">
                         <h4>Foundation</h4>
@@ -172,14 +171,13 @@
                         <p class="counterfeit-fake">↯ I was remembered, but the path is no clearer</p>
                     </div>
                 </div>
-
                 <div class="counterfeit-practice">
                     <p><strong>The detection practice:</strong> Before I call it foundation, I ask: "Could I lose this and still walk?" Before I call it depth: "Am I hiding from action in introspection?" Before I call it construction: "Would this matter if my name weren't on it?" Before I call it legacy: "Is the path actually clearer for those who follow?"</p>
                     <p class="counterfeit-link"><a href="threshold/counterfeit.html">Learn to recognise the counterfeits →</a></p>
                 </div>
             </section>
 
-            <!-- Sequence / walk in order -->
+            <!-- Sequence -->
             <section class="sequence">
                 <div class="sequence-box">
                     <h3 class="sequence-title">Walk in order</h3>
@@ -194,7 +192,7 @@
                 </div>
             </section>
 
-            <!-- Invitation card -->
+            <!-- Invitation -->
             <section class="invitation">
                 <div class="invitation-card">
                     <h2>Begin where I am</h2>
@@ -213,4 +211,4 @@
 
     <script src="js/script.js" defer></script>
 </body>
-    </html>
+        </html>
